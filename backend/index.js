@@ -41,6 +41,11 @@ const vibeMap = {
 
 // Smash counter (stored in memory for now)
 let smashes = 0;
+let lastSmashAt = null;
+
+// simple anti-spam: track last smash per IP (in-memory)
+const lastSmashByIp = {};
+const SMASH_COOLDOWN_MS = 1000; // 1 smash per second per IP
 
 // GET /api/fortune -> returns one random fortune
 app.get("/api/fortune", (req, res) => {
@@ -70,15 +75,58 @@ app.get("/api/vibe", (req, res) => {
   res.json({ mood, ...vibe });
 });
 
-// POST /api/smash -> increases counter and returns the updated value
+// POST /api/smash -> increases counter and returns the updated value (with cooldown)
 app.post("/api/smash", (req, res) => {
+  const ip =
+    req.headers["x-forwarded-for"]?.split(",")[0]?.trim() ||
+    req.socket.remoteAddress;
+
+  const now = Date.now();
+  const last = lastSmashByIp[ip] || 0;
+  const diff = now - last;
+
+  // cooldown check
+  if (diff < SMASH_COOLDOWN_MS) {
+    const waitMs = SMASH_COOLDOWN_MS - diff;
+    return res.status(429).json({
+      smashes,
+      message: "Too fast 💨 Wait a bit before smashing again.",
+      retryAfterMs: waitMs,
+    });
+  }
+
+  lastSmashByIp[ip] = now;
   smashes += 1;
-  res.json({ smashes });
+  lastSmashAt = new Date().toISOString();
+
+  res.json({
+    smashes,
+    message: "SMASH registered 💥",
+    lastSmashAt,
+  });
 });
 
-// GET /api/smashes -> returns current counter
+// GET /api/smashes -> returns current counter + last smash time
 app.get("/api/smashes", (req, res) => {
-  res.json({ smashes });
+  res.json({
+    smashes,
+    lastSmashAt,
+  });
+});
+
+// OPTIONAL: POST /api/smash/reset -> resets counter (useful for testing)
+app.post("/api/smash/reset", (req, res) => {
+  smashes = 0;
+  lastSmashAt = null;
+
+  // clear per-IP cooldowns
+  for (const key in lastSmashByIp) delete lastSmashByIp[key];
+
+  res.json({
+    smashes,
+    message: "Smash counter reset ✅",
+    lastSmashAt,
+  });
 });
 
 // GET /api/secret?code=411L -> hidden message if code is correct
@@ -86,7 +134,9 @@ app.get("/api/secret", (req, res) => {
   const code = req.query.code;
 
   if (code === "411L") {
-    return res.json({ message: "🎉 Secret unlocked: +10 luck on your next merge!" });
+    return res.json({
+      message: "🎉 Secret unlocked: +10 luck on your next merge!",
+    });
   }
 
   res.status(403).json({ message: "Nope 😄 Try code=411L" });
