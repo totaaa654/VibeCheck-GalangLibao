@@ -25,10 +25,6 @@ const fortunes = [
   "Your next commit will be clean and meaningful.",
   "A bug will disappear when you add one console.log().",
   "You passed the vibe check today. 😎",
-  "You will find your real father today.", 
-  "You're future holds great fortune",
-  "BEHH MANANALO KA SA LOTO OMGGG BALATO"
-  
 ];
 
 const jokes = [
