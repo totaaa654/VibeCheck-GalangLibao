@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VibeCheck 411L</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f4c81, #3b82f6);
+      font-family: Arial, Helvetica, sans-serif;
+      color: #ffffff;
+    }
+
+    .container {
+      background: #ffffff;
+      color: #1e3a8a;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #1d4ed8;
+    }
+
+    p {
+      font-size: 14px;
+      color: #374151;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    button {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.1s ease, background 0.2s ease;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    h2 {
+      margin-bottom: 8px;
+      color: #1e40af;
+    }
+
+    pre {
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: left;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>VibeCheck 411L</h1>
+    <p>Click a button to fetch data from your Node.js API.</p>
+
+    <div class="buttons">
+      <button id="btnFortune">🔮 Fortune</button>
+      <button id="btnJoke">😂 Joke</button>
+      <button data-mood="happy" class="btnMood">😄 Happy</button>
+      <button data-mood="tired" class="btnMood">🥱 Tired</button>
+      <button data-mood="stressed" class="btnMood">😵‍💫 Stressed</button>
+      <button id="btnSmash">💥 SMASH!</button>
+      <button id="btnSecret">🕵️ Secret</button>
+    </div>
+
+    <h2>Output</h2>
+    <pre id="out">Ready...</pre>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
