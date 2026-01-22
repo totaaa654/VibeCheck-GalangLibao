@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VibeCheck 411L</title>
+</head>
+<body>
+  <h1>VibeCheck 411L</h1>
+  <p>Click buttons. This page will fetch data from your Node.js API.</p>
+
+  <div>
+    <button id="btnFortune">🔮 Fortune</button>
+    <button id="btnJoke">😂 Joke</button>
+    <button data-mood="happy" class="btnMood">😄 Happy</button>
+    <button data-mood="tired" class="btnMood">🥱 Tired</button>
+    <button data-mood="stressed" class="btnMood">😵‍💫 Stressed</button>
+    <button id="btnSmash">💥 SMASH!</button>
+    <button id="btnSecret">🕵️ Secret</button>
+  </div>
+
+  <h2>Output</h2>
+  <pre id="out">Ready...</pre>
+
+  <script src="app.js"></script>
+</body>
+</html>
